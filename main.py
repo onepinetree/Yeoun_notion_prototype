@@ -29,6 +29,32 @@ async def getRemindLine(notion_secret_key: str = Header(...), page_link: str = H
 
 
 
+class Model(BaseModel):
+    climax: int 
+    time_back: str
+    url: str
+
+
+@app.post("/modified_link")
+def modify_link(model: Model):
+
+    base_link: str = model.url
+    base_link = unquote(base_link)
+
+    request_start_time : int = model.climax - int(model.time_back)
+    
+    if 't=' in base_link:
+        base_link = base_link.split('t=')[0]
+
+    modified_link = f'{base_link}&t={request_start_time}s'
+
+    return modified_link
+
+
+
+
+
+
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=int(os.getenv("PORT", 8000)))
 
