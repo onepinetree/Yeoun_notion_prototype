@@ -27,6 +27,8 @@ async def getRemindLine(notion_secret_key: str = Header(...), page_link: str = H
 
     return {'book_name' : fetcher.now_remind_book_name, 'now_remind_line' : fetcher.now_remind_line}
 
+from urllib.parse import unquote
+from pydantic import BaseModel
 
 
 class Model(BaseModel):
